@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1qaz!QAZ
+      MYSQL_DATABASE: car_rental_database
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+  spring-boot-app:
+    build: .
+    container_name: spring-boot-app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/car_rental_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1qaz!QAZ
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
