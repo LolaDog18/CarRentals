@@ -34,3 +34,6 @@ build/
 
 # Ignore all JAR files
 *.jar
+
+# Ignore .env
+.env
