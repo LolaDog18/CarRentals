@@ -1,14 +1,14 @@
-package com.woozy.carrentals.api.controller;
+package com.woozy.carrentals.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woozy.carrentals.constants.Endpoints;
+import com.woozy.AuthenticationRequestDto;
+import com.woozy.RegisterCustomerRequestDto;
+import com.woozy.carrentals.constants.EndpointBuilder;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.exceptions.errormessages.ControllerDetailMsg;
 import com.woozy.carrentals.security.JwtService;
 import com.woozy.carrentals.security.WebSecurity;
 import com.woozy.carrentals.service.AuthenticationService;
-import com.woozy.carrentals.shared.dto.request.authentication.AuthenticationRequestDto;
-import com.woozy.carrentals.shared.dto.request.customer.RegisterCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.authentication.AuthenticationResponseDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import com.woozy.carrentals.ui.controller.AuthController;
@@ -27,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
+import static com.woozy.carrentals.constants.AuthEndpointAction.AUTHENTICATE;
+import static com.woozy.carrentals.constants.AuthEndpointAction.REGISTER_CUSTOMER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -46,6 +48,9 @@ public class AuthControllerTests {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private EndpointBuilder endpointBuilder;
+
     private RegisterCustomerRequestDto requestDto;
     private CustomerResponseDto responseDto;
 
@@ -67,7 +72,7 @@ public class AuthControllerTests {
     void registerCustomer_validCustomerDetails_success() {
         when(authenticationService.registerCustomer(any(RegisterCustomerRequestDto.class))).thenReturn(responseDto);
 
-        mockMvc.perform(post(Endpoints.AUTH + "/register-customer")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(REGISTER_CUSTOMER))
                         .content(objectMapper.writeValueAsString(requestDto))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -87,7 +92,7 @@ public class AuthControllerTests {
         when(authenticationService.registerCustomer(any(RegisterCustomerRequestDto.class)))
                 .thenThrow(new CustomerEntityException("The customer email or phone number already exists"));
 
-        mockMvc.perform(post(Endpoints.AUTH + "/register-customer")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(REGISTER_CUSTOMER))
                         .content(objectMapper.writeValueAsString(requestDto))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -102,7 +107,7 @@ public class AuthControllerTests {
         when(authenticationService.registerCustomer(any(RegisterCustomerRequestDto.class)))
                 .thenThrow(new CustomerEntityException("The customer email or phone number already exists"));
 
-        mockMvc.perform(post(Endpoints.AUTH + "/register-customer")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(REGISTER_CUSTOMER))
                         .content(objectMapper.writeValueAsString(requestDto))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -121,7 +126,7 @@ public class AuthControllerTests {
 
         when(authenticationService.authenticateCustomer(any(AuthenticationRequestDto.class))).thenReturn(authResponseDto);
 
-        mockMvc.perform(post(Endpoints.AUTH + "/authenticate")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(AUTHENTICATE))
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(TestDataGenerator.generateAuthenticationRequestDto())))
                 .andExpect(status().isOk())
@@ -135,7 +140,7 @@ public class AuthControllerTests {
         when(authenticationService.authenticateCustomer(any(AuthenticationRequestDto.class)))
                 .thenThrow(new UsernameNotFoundException(ControllerDetailMsg.EMAIL_MOBILE_EXISTS));
 
-        mockMvc.perform(post(Endpoints.AUTH + "/authenticate")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(AUTHENTICATE))
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(TestDataGenerator.generateAuthenticationRequestDto())))
                 .andExpect(status().isBadRequest())
@@ -149,7 +154,7 @@ public class AuthControllerTests {
         when(authenticationService.authenticateCustomer(any(AuthenticationRequestDto.class)))
                 .thenThrow(new BadCredentialsException(ControllerDetailMsg.USER_NOT_AUTHORIZED));
 
-        mockMvc.perform(post(Endpoints.AUTH + "/authenticate")
+        mockMvc.perform(post(endpointBuilder.buildAuthEndpointFor(AUTHENTICATE))
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(TestDataGenerator.generateAuthenticationRequestDto())))
                 .andExpect(status().isUnauthorized())

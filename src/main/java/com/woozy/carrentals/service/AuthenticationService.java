@@ -1,7 +1,7 @@
 package com.woozy.carrentals.service;
 
-import com.woozy.carrentals.shared.dto.request.authentication.AuthenticationRequestDto;
-import com.woozy.carrentals.shared.dto.request.customer.RegisterCustomerRequestDto;
+import com.woozy.AuthenticationRequestDto;
+import com.woozy.RegisterCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.authentication.AuthenticationResponseDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 

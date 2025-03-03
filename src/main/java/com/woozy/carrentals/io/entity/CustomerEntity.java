@@ -1,11 +1,9 @@
 package com.woozy.carrentals.io.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,16 +30,26 @@ public class CustomerEntity implements UserDetails {
     @Column(name = "user_id", updatable = false, nullable = false, unique = true, columnDefinition = "CHAR(36)")
     private String userId;
 
-    @Column(name = "first_name", nullable = false, length = 50)
+    @NotEmpty(message = "First name must not be empty")
+    @NotNull
+    @Length(max = 50, message = "First name must be lower or equal to 50 characters")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    @NotEmpty(message = "Last name must not be empty")
+    @NotNull
+    @Length(max = 50, message = "Last name must be lower or equal to 50 characters")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Email
-    @Column(nullable = false, length = 120)
+    @Email(message = "Email must be well-formatted")
+    @NotEmpty(message = "Email must not be empty")
+    @NotNull
+    @Length(max = 120, message = "Email must be lower or equal to 120 characters")
+    @Column(nullable = false)
     private String email;
 
+    @NotEmpty(message = "Password must not be empty")
     @Column(nullable = false)
     @ToString.Exclude
     private String password;
@@ -53,19 +61,26 @@ public class CustomerEntity implements UserDetails {
     @Column(name = "email_verification_status", nullable = false)
     private Boolean emailVerificationStatus = false;
 
+    @NotEmpty(message = "Mobile number must not be empty")
+    @NotNull
     @Pattern(regexp = "^\\+48[0-9]{9}$", message = "Invalid phone number")
-    @Column(name = "mobile_number", nullable = false, length = 12)
+    @Column(name = "mobile_number")
     private String mobileNumber;
 
-    @Column(nullable = false)
+    @NotNull
     @Min(21)
     @Max(65)
     private Integer age;
 
-    @Column(name = "driving_license", nullable = false, length = 20)
+    @NotEmpty(message = "Driving license must not be empty")
+    @NotNull
+    @Length(max = 20, message = "Driving license must be lower or equal to 20 characters")
+    @Column(name = "driving_license")
     private String drivingLicense;
 
-    @Column(nullable = false, length = 100)
+    @NotEmpty(message = "Address must not be empty")
+    @NotNull
+    @Length(max = 100, message = "Address must be lower or equal to 100 characters")
     private String address;
 
     @UniqueElements()
@@ -98,5 +113,4 @@ public class CustomerEntity implements UserDetails {
     public String getUsername() {
         return email;
     }
-
 }

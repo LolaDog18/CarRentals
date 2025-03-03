@@ -1,13 +1,13 @@
-package com.woozy.carrentals.api.service;
+package com.woozy.carrentals.service;
 
+import com.woozy.AuthenticationRequestDto;
+import com.woozy.RegisterCustomerRequestDto;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.io.entity.Role;
 import com.woozy.carrentals.repository.CustomerRepository;
 import com.woozy.carrentals.security.JwtService;
 import com.woozy.carrentals.service.impl.AuthenticationServiceImpl;
-import com.woozy.carrentals.shared.dto.request.authentication.AuthenticationRequestDto;
-import com.woozy.carrentals.shared.dto.request.customer.RegisterCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import com.woozy.carrentals.utils.TestDataGenerator;
 import org.junit.jupiter.api.BeforeEach;

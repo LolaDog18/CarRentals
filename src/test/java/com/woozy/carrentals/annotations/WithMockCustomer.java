@@ -1,4 +1,4 @@
-package annotations;
+package com.woozy.carrentals.annotations;
 
 import org.springframework.security.test.context.support.WithMockUser;
 

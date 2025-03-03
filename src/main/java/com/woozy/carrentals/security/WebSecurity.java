@@ -1,6 +1,6 @@
 package com.woozy.carrentals.security;
 
-import com.woozy.carrentals.constants.Endpoints;
+import com.woozy.carrentals.constants.EndpointResourcePath;
 import com.woozy.carrentals.io.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @EnableWebSecurity
 @Configuration
@@ -21,13 +23,18 @@ public class WebSecurity {
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    public MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers(Endpoints.AUTH + "/**")
+                                .requestMatchers(mvc.pattern(EndpointResourcePath.AUTH_PATH + "/**"))
                                 .permitAll()
-                                .requestMatchers(Endpoints.CUSTOMERS + "/**").hasRole(Role.CUSTOMER.name())
+                                .requestMatchers(mvc.pattern(EndpointResourcePath.CUSTOMERS_PATH + "/**")).hasRole(Role.CUSTOMER.name())
                                 .anyRequest().authenticated())
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

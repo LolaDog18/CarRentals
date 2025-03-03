@@ -37,6 +37,14 @@ public class BeanHelperUtils {
     }
 
     public static boolean areAllPropertiesNull(Object bean) {
+        return checkProperties(bean, true);
+    }
+
+    public static boolean isNullPropertyExist(Object bean) {
+        return checkProperties(bean, false);
+    }
+
+    private static boolean checkProperties(Object bean, boolean checkAllNull) {
         if (bean == null) {
             return false;
         }
@@ -45,13 +53,17 @@ public class BeanHelperUtils {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                if (field.get(bean) != null) {
-                    return false;
+                boolean isNull = field.get(bean) == null;
+                if (checkAllNull && !isNull) {
+                    return false; // At least one non-null field
+                }
+                if (!checkAllNull && isNull) {
+                    return true; // At least one null field
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException("Failed to access field: " + field.getName(), e);
             }
         }
-        return true;
+        return checkAllNull; // Returns true if all are null, false otherwise
     }
 }

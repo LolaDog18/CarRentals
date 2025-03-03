@@ -1,17 +1,19 @@
 package com.woozy.carrentals.utils;
 
+import com.woozy.AuthenticationRequestDto;
+import com.woozy.RegisterCustomerRequestDto;
 import com.woozy.carrentals.io.entity.CustomerEntity;
-import com.woozy.carrentals.shared.dto.request.authentication.AuthenticationRequestDto;
-import com.woozy.carrentals.shared.dto.request.customer.RegisterCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.request.customer.UpdateCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
 
+import java.util.Locale;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestDataGenerator {
-    private static final Faker faker = new Faker();
+    private static final Faker faker = new Faker(Locale.of("pl-PL"));
 
     public static RegisterCustomerRequestDto generateRegisterCustomerRequest() {
         return RegisterCustomerRequestDto.builder()
@@ -22,7 +24,7 @@ public class TestDataGenerator {
                 .address(faker.address().fullAddress())
                 .age(faker.number().numberBetween(21, 65))
                 .drivingLicense(faker.idNumber().valid())
-                .mobileNumber(faker.phoneNumber().cellPhone())
+                .mobileNumber(generatePhoneNumber())
                 .build();
     }
 
@@ -33,7 +35,7 @@ public class TestDataGenerator {
                 .email(faker.internet().emailAddress())
                 .password(faker.internet().password())
                 .address(faker.address().fullAddress())
-                .mobileNumber(faker.phoneNumber().cellPhone())
+                .mobileNumber(generatePhoneNumber())
                 .age(faker.number().numberBetween(21, 65))
                 .drivingLicense(faker.idNumber().valid())
                 .build();
@@ -44,7 +46,7 @@ public class TestDataGenerator {
                 .email(faker.internet().emailAddress())
                 .address(faker.address().fullAddress())
                 .drivingLicense(faker.idNumber().valid())
-                .mobileNumber(faker.phoneNumber().cellPhone())
+                .mobileNumber(generatePhoneNumber())
                 .build();
     }
 
@@ -54,7 +56,7 @@ public class TestDataGenerator {
                 .firstName(faker.name().firstName())
                 .lastName(faker.name().lastName())
                 .email(faker.internet().emailAddress())
-                .mobileNumber(faker.phoneNumber().cellPhone())
+                .mobileNumber(generatePhoneNumber())
                 .address(faker.address().fullAddress())
                 .build();
     }
@@ -64,5 +66,10 @@ public class TestDataGenerator {
                 .email(faker.internet().emailAddress())
                 .password(faker.internet().password())
                 .build();
+    }
+
+    public static String generatePhoneNumber() {
+        String phoneNumber = faker.phoneNumber().phoneNumberInternational();
+        return phoneNumber.replace(" ", "");
     }
 }

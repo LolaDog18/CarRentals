@@ -1,4 +1,4 @@
-package com.woozy.carrentals.api.service;
+package com.woozy.carrentals.service;
 
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;

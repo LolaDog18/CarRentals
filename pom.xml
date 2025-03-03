@@ -7,11 +7,11 @@
         <version>3.4.2</version>
         <relativePath/>
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>CarRentals</artifactId>
+    <groupId>com.woozy</groupId>
+    <artifactId>car-rentals</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CarRentals</name>
-    <description>CarRental in spring boot</description>
+    <name>Car Rentals</name>
+    <description>Car rental application in spring boot</description>
     <url/>
     <licenses>
         <license/>
@@ -33,6 +33,10 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <json-webtoken.version>0.12.6</json-webtoken.version>
         <datafaker.version>2.4.2</datafaker.version>
+        <api-client.version>0.0.1-SNAPSHOT</api-client.version>
+        <cucumber.version>7.18.1</cucumber.version>
+        <jackson-dataform-csv.version>2.18.2</jackson-dataform-csv.version>
+        <shared-artifacts.version>1.0.0</shared-artifacts.version>
     </properties>
 
     <dependencies>
@@ -59,6 +63,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -115,9 +124,44 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
             <version>${datafaker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.woozy</groupId>
+            <artifactId>api-client</artifactId>
+            <version>${api-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.woozy</groupId>
+            <artifactId>shared-artifacts</artifactId>
+            <version>${shared-artifacts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>${jackson-dataform-csv.version}</version>
         </dependency>
     </dependencies>
 

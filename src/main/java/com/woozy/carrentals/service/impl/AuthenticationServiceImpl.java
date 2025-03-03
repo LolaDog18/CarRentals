@@ -1,13 +1,13 @@
 package com.woozy.carrentals.service.impl;
 
+import com.woozy.AuthenticationRequestDto;
+import com.woozy.RegisterCustomerRequestDto;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.io.entity.Role;
 import com.woozy.carrentals.repository.CustomerRepository;
 import com.woozy.carrentals.security.JwtService;
 import com.woozy.carrentals.service.AuthenticationService;
-import com.woozy.carrentals.shared.dto.request.authentication.AuthenticationRequestDto;
-import com.woozy.carrentals.shared.dto.request.customer.RegisterCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.authentication.AuthenticationResponseDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +66,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .mobileNumber(userDetails.getMobileNumber())
+                .address(userDetails.getAddress())
                 .build();
     }
 
