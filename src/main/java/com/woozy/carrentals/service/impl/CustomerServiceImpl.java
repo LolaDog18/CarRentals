@@ -1,10 +1,10 @@
 package com.woozy.carrentals.service.impl;
 
+import com.woozy.UpdateCustomerRequestDto;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.repository.CustomerRepository;
 import com.woozy.carrentals.service.CustomerService;
-import com.woozy.carrentals.shared.dto.request.customer.UpdateCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import com.woozy.carrentals.utils.BeanHelperUtils;
 import lombok.RequiredArgsConstructor;

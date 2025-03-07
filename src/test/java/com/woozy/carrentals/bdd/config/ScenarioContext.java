@@ -1,32 +1,31 @@
 package com.woozy.carrentals.bdd.config;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class ScenarioContext {
-    private static final ThreadLocal<Map<String, Object>> scenarioContext = ThreadLocal.withInitial(HashMap::new);
+    private final ThreadLocal<Map<ContextItem, Object>> context = ThreadLocal.withInitial(HashMap::new);
 
-    public static void set(String key, Object value) {
-        scenarioContext.get().put(key, value);
+    public void set(ContextItem key, Object value) {
+        context.get().put(key, value);
     }
 
-    public static Object get(String key) {
-        return scenarioContext.get().get(key);
+    public <T> T get(ContextItem key, Class<T> type) {
+        return type.cast(context.get().get(key));
     }
 
-    public static void remove(String key) {
-        scenarioContext.get().remove(key);
+    public void remove(ContextItem key) {
+        context.get().remove(key);
     }
 
-    public static void clear() {
-        scenarioContext.remove();
+    public void clear() {
+        context.remove();
     }
 
-    public static int getContextSize() {
-        return scenarioContext.get().size();
+    public int getContextSize() {
+        return context.get().size();
     }
 }

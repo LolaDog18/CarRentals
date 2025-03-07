@@ -27,7 +27,8 @@ public class CustomerEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_id", updatable = false, nullable = false, unique = true, columnDefinition = "CHAR(36)")
+    @NotNull
+    @Column(name = "user_id", updatable = false, unique = true, columnDefinition = "VARCHAR(36)")
     private String userId;
 
     @NotEmpty(message = "First name must not be empty")

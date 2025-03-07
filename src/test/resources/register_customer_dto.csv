@@ -1,0 +1,11 @@
+firstName,lastName,email,password,mobileNumber,age,drivingLicense,address
+Alice,Clark,alice.clark@sample.org,Pass@8864,+48616604673,55,DVL-128027,"789 Pine St, Katowice"
+Bob,Brown,bob.brown@sample.org,Pass@8616,+48179993677,29,DVL-113130,"123 Main St, Warsaw"
+Fiona,Smith,fiona.smith@email.com,Pass@7924,+48740485012,60,DVL-636978,"101 Elm St, Poznan"
+Ethan,Taylor,ethan.taylor@example.com,Pass@8798,+48867316171,54,DVL-976847,"555 Cedar St, Krakow"
+Hannah,Allen,hannah.allen@testmail.com,Pass@5504,+48411813823,28,DVL-245319,"456 Oak St, Wroclaw"
+Ethan,Hall,ethan.hall@testmail.com,Pass@1253,+48609569277,38,DVL-443566,"555 Cedar St, Krakow"
+Ethan,Lewis,ethan.lewis@sample.org,Pass@1922,+48827498287,57,DVL-658562,"789 Pine St, Katowice"
+Alice,Anderson,alice.anderson@testmail.com,Pass@2264,+48291657216,27,DVL-479671,"123 Main St, Warsaw"
+Diana,Lewis,diana.lewis@example.com,Pass@9595,+48905627166,21,DVL-361419,"101 Elm St, Poznan"
+John,Hall,john.hall@sample.org,Pass@3845,+48712530527,30,DVL-836867,"456 Oak St, Wroclaw"

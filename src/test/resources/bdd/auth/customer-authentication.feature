@@ -1,7 +1,7 @@
 Feature: Customer authentication
   Customer should be able to authenticate through authentication API endpoint
 
-  @RunMe @Cleanup
+  @Auth @Cleanup
   Scenario Template: Registered customer makes a call to /authenticate endpoint with valid credentials
     Given I register a customer through POST /register-customer with following customer details:
       | firstName | lastName | email                  | password | mobileNumber | age | drivingLicense | address             |
@@ -14,7 +14,7 @@ Feature: Customer authentication
       | email                  | password |
       | jami.lanister@test.com | Pass@128 |
 
-  @RunMe
+  @Auth
   Scenario Template: Non-registered customer makes a call to /authenticate endpoint
     Given I don't register a customer
     When I call POST /authenticate endpoint with <email> and <password>
@@ -25,7 +25,7 @@ Feature: Customer authentication
       | email              | password |
       | jhon.snow@test.com | Pass@123 |
 
-  @RunMe @Cleanup
+  @Auth @Cleanup
   Scenario Template: Registered customer makes a call to /authenticate endpoint with invalid password
     Given I register a customer through POST /register-customer with following customer details:
       | firstName | lastName | email                | password | mobileNumber | age | drivingLicense | address             |

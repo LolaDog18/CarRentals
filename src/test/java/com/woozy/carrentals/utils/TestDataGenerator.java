@@ -2,8 +2,8 @@ package com.woozy.carrentals.utils;
 
 import com.woozy.AuthenticationRequestDto;
 import com.woozy.RegisterCustomerRequestDto;
+import com.woozy.UpdateCustomerRequestDto;
 import com.woozy.carrentals.io.entity.CustomerEntity;
-import com.woozy.carrentals.shared.dto.request.customer.UpdateCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

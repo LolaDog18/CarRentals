@@ -2,8 +2,9 @@ package com.woozy.carrentals.bdd.step_definitions.auth;
 
 import com.woozy.AuthenticationRequestDto;
 import com.woozy.RegisterCustomerRequestDto;
-import com.woozy.car_rentals.clients.AuthenticationClient;
+import com.woozy.car_rentals.clients.interfaces.AuthenticationClient;
 import com.woozy.car_rentals.response.ClientResponse;
+import com.woozy.carrentals.bdd.config.ContextItem;
 import com.woozy.carrentals.bdd.config.ScenarioContext;
 import com.woozy.carrentals.shared.dto.response.authentication.AuthenticationResponseDto;
 import com.woozy.carrentals.utils.ListUtils;
@@ -22,7 +23,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 @RequiredArgsConstructor
 public class CustomerAuthStepDefs {
     private final AuthenticationClient client;
-    private ClientResponse response;
+    private final ScenarioContext context;
 
     @Given("I register a customer through POST \\/register-customer with following customer details:")
     public void iRegisterACustomerThroughPOSTRegisterCustomerWithFollowingCustomerDetails(List<RegisterCustomerRequestDto> customers) {
@@ -32,13 +33,13 @@ public class CustomerAuthStepDefs {
     }
 
     @When("I call POST \\/authenticate endpoint with {email} and {password}")
-    public void iCallPOSTAuthenticateEndpointWithEmailAndPassword(String email, String password) {
-        response = client.authenticateCustomer(new AuthenticationRequestDto(email, password));
-        ScenarioContext.set("response", response);
+    public ClientResponse iCallPOSTAuthenticateEndpointWithEmailAndPassword(String email, String password) {
+        return client.authenticateCustomer(new AuthenticationRequestDto(email, password));
     }
 
     @And("body should contain authentication token")
     public void bodyShouldContainAuthenticationToken() {
+        var response = context.get(ContextItem.RESPONSE, ClientResponse.class);
         String responseToken = response.extractBodyAs(AuthenticationResponseDto.class).getToken();
         Assertions.assertFalse(StringUtils.isBlank(responseToken));
     }
@@ -49,6 +50,7 @@ public class CustomerAuthStepDefs {
 
     @And("body should contain error message {string}")
     public void bodyShouldContainErrorMessage(String message) {
+        var response = context.get(ContextItem.RESPONSE, ClientResponse.class);
         Assertions.assertEquals(message, response.extractBodyAs(ProblemDetail.class).getDetail());
     }
 }

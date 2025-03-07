@@ -1,8 +1,8 @@
 package com.woozy.carrentals.ui.controller;
 
+import com.woozy.UpdateCustomerRequestDto;
 import com.woozy.carrentals.constants.EndpointPathVariable;
 import com.woozy.carrentals.service.CustomerService;
-import com.woozy.carrentals.shared.dto.request.customer.UpdateCustomerRequestDto;
 import com.woozy.carrentals.shared.dto.response.customer.CustomerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

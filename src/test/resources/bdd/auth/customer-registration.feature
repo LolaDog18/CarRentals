@@ -2,7 +2,7 @@ Feature: Customer registration
   Customer should be able to register through authentication API endpoints
 
 
-  @RunMe @Cleanup
+  @Reg @Cleanup
   Scenario: Client makes a call to POST /register-customer endpoint with valid customer details
     Given the following customer valid details:
       | firstName | lastName | email                | password  | mobileNumber | age | drivingLicense | address               |
@@ -15,7 +15,7 @@ Feature: Customer registration
     Then I should receive response with status code of 200
     And body contains saved customer details with non-null values
 
-  @RunMe
+  @Reg
   Scenario: Client makes a call to POST /register-customer endpoint with invalid customer details
     Given the following customer invalid details:
       | firstName | lastName | email                  | password  | mobileNumber | age | drivingLicense | address               | errorMessage                       |
@@ -43,9 +43,9 @@ Feature: Customer registration
       | Address must not be empty               |
 
 
-  @RunMe @Cleanup
-  Scenario: Client makes a call to POST /register-customer endpoint with existing email
-    Given customer is read from customer_entity.csv file
+  @Reg @Cleanup
+  Scenario: ClienAutht makes a call to POST /register-customer endpoint with existing email
+    Given customer is read from register_customer_dto.csv file
     And customer is saved to database
     When client calls POST /register-customer with the same email as existing one in database
     Then I should receive response with status code of 400

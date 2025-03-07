@@ -3,7 +3,6 @@ package com.woozy.carrentals.bdd.hooks;
 import com.woozy.carrentals.bdd.config.ScenarioContext;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
-import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,9 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CucumberHooks {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    ScenarioContext context;
 
     @After("@Cleanup")
-    @Transactional
     public void databaseCleanup(Scenario scenario) {
         log.info("Cleaning up database for: {}", scenario.getName());
 
@@ -27,7 +27,7 @@ public class CucumberHooks {
     @After
     public void cleanUpStepDefContext(Scenario scenario) {
         log.info("Cleaning up context for step definition {}", scenario.getName());
-        if (ScenarioContext.getContextSize() != 0)
-            ScenarioContext.clear();
+        if (context.getContextSize() != 0)
+            context.clear();
     }
 }
