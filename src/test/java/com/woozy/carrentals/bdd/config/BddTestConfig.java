@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Lazy;
 @ComponentScan(basePackages = "com.woozy.carrentals")
 @EnableAspectJAutoProxy
 @EnableAutoConfiguration
-public class SpringTestConfig {
+public class BddTestConfig {
     @Value("${server.address:localhost}")
     private String serverAddress;
 

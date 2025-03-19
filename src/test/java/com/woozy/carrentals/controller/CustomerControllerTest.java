@@ -1,11 +1,8 @@
 package com.woozy.carrentals.controller;
 
-import com.woozy.carrentals.annotations.WithMockCustomer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woozy.carrentals.constants.EndpointBuilder;
-import com.woozy.carrentals.constants.EndpointPathVariable;
+import com.woozy.carrentals.annotations.WithMockCustomer;
 import com.woozy.carrentals.security.JwtService;
-import com.woozy.carrentals.security.WebSecurity;
 import com.woozy.carrentals.service.CustomerService;
 import com.woozy.carrentals.ui.controller.CustomerController;
 import com.woozy.carrentals.utils.TestDataGenerator;
@@ -14,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -22,6 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
+import static com.woozy.carrentals.constants.EndpointPathVariable.USER_ID;
+import static com.woozy.carrentals.constants.EndpointResourcePath.CUSTOMERS_PATH;
 import static com.woozy.carrentals.exceptions.errormessages.ControllerDetailMsg.USER_NOT_FOUND;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -29,8 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
-@Import(WebSecurity.class)
-public class CustomerControllerTest {
+public class CustomerControllerTest extends ControllerTestBase {
     @Autowired
     private MockMvc mockMvc;
     @MockitoBean
@@ -39,8 +36,6 @@ public class CustomerControllerTest {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private EndpointBuilder endpointBuilder;
     private String userId;
 
     @BeforeEach
@@ -56,7 +51,7 @@ public class CustomerControllerTest {
         customerResponseDto.setUserId(userId);
         when(customerService.getCustomer(userId)).thenReturn(customerResponseDto);
 
-        mockMvc.perform(get(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId))
+        mockMvc.perform(get(CUSTOMERS_PATH + USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userId").value(customerResponseDto.getUserId()))
                 .andExpect(jsonPath("$.email").value(customerResponseDto.getEmail()))
@@ -74,7 +69,7 @@ public class CustomerControllerTest {
     void getCustomer_invalidCustomerId_returnsBadRequest() {
         when(customerService.getCustomer(userId)).thenThrow(new UsernameNotFoundException(USER_NOT_FOUND));
 
-        mockMvc.perform(get(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId))
+        mockMvc.perform(get(CUSTOMERS_PATH + USER_ID, userId))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.detail").value(USER_NOT_FOUND));
 
@@ -84,7 +79,7 @@ public class CustomerControllerTest {
     @SneakyThrows
     @Test
     void getCustomer_unauthorized_returnsUnauthorized() {
-        mockMvc.perform(get(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId))
+        mockMvc.perform(get(CUSTOMERS_PATH + USER_ID, userId))
                 .andExpect(status().isUnauthorized());
 
         verify(customerService, times(0)).getCustomer(userId);
@@ -103,7 +98,7 @@ public class CustomerControllerTest {
 
         when(customerService.updateCustomer(userId, updateCustomerRequestDto)).thenReturn(customerResponseDto);
 
-        mockMvc.perform(put(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId)
+        mockMvc.perform(put(CUSTOMERS_PATH + USER_ID, userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateCustomerRequestDto)))
                 .andExpect(status().isOk())
@@ -124,7 +119,7 @@ public class CustomerControllerTest {
         var updateCustomerRequestDto = TestDataGenerator.generateUpdateCustomerRequestDto();
         when(customerService.updateCustomer(userId, updateCustomerRequestDto)).thenThrow(new UsernameNotFoundException(USER_NOT_FOUND));
 
-        mockMvc.perform(put(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId)
+        mockMvc.perform(put(CUSTOMERS_PATH + USER_ID, userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateCustomerRequestDto)))
                 .andExpect(status().isBadRequest())
@@ -139,7 +134,7 @@ public class CustomerControllerTest {
     void deleteCustomer_validUserId_returnsNoContent() {
         doNothing().when(customerService).deleteCustomer(userId);
 
-        mockMvc.perform(delete(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId))
+        mockMvc.perform(delete(CUSTOMERS_PATH + USER_ID, userId))
                 .andExpect(status().isNoContent());
         verify(customerService, times(1)).deleteCustomer(userId);
     }
@@ -150,7 +145,7 @@ public class CustomerControllerTest {
     void deleteCustomer_invalidUserId_returnsBadRequest() {
         doThrow(new UsernameNotFoundException(USER_NOT_FOUND)).when(customerService).deleteCustomer(userId);
 
-        mockMvc.perform(delete(endpointBuilder.buildCustomerEndpointFor(EndpointPathVariable.USER_ID), userId))
+        mockMvc.perform(delete(CUSTOMERS_PATH + USER_ID, userId))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.detail").value(USER_NOT_FOUND));
 

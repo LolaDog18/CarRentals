@@ -1,6 +1,7 @@
 package com.woozy.carrentals.bdd.hooks;
 
 import com.woozy.carrentals.bdd.config.ScenarioContext;
+import com.woozy.carrentals.bdd.helper.AttachmentsHelper;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
 import lombok.extern.log4j.Log4j2;
@@ -29,5 +30,13 @@ public class CucumberHooks {
         log.info("Cleaning up context for step definition {}", scenario.getName());
         if (context.getContextSize() != 0)
             context.clear();
+    }
+
+    @After
+    public void attachLogs(Scenario scenario) {
+        if (scenario.isFailed()) {
+            log.info("Attaching test logs to the report...");
+            AttachmentsHelper.attachLogToReport(scenario, "logs/test-layer.log");
+        }
     }
 }

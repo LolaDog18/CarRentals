@@ -2,7 +2,7 @@ Feature: Customer service
   Customer should be able to update, delete and get its information through /customers endpoints
 
   @Customers @Cleanup
-  Scenario: Client makes a call to GET /customers passing existing customer idó
+  Scenario: Client makes a call to GET /customers passing existing customer id
     When I call GET /customers passing existing customer userId
     Then I should receive response with status code of 200
     And body should contain customer details for provided customer userId

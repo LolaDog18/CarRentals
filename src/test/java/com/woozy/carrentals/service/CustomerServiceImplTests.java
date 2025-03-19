@@ -1,6 +1,7 @@
 package com.woozy.carrentals.service;
 
 import com.woozy.UpdateCustomerRequestDto;
+import com.woozy.carrentals.config.Log4j2TestConfig;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.repository.CustomerRepository;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Import(Log4j2TestConfig.class)
 public class CustomerServiceImplTests {
     @Mock
     private CustomerRepository customerRepository;
@@ -80,9 +83,7 @@ public class CustomerServiceImplTests {
     @Test
     void updateCustomer_invalidUserId_throwsUsernameNotFoundException() {
         when(customerRepository.findByUserId(userId)).thenReturn(Optional.empty());
-
         var updateCustomerRequest = TestDataGenerator.generateUpdateCustomerRequestDto();
-
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class,
                 () -> customerService.updateCustomer(userId, updateCustomerRequest));
 

@@ -2,6 +2,7 @@ package com.woozy.carrentals.service;
 
 import com.woozy.AuthenticationRequestDto;
 import com.woozy.RegisterCustomerRequestDto;
+import com.woozy.carrentals.config.Log4j2TestConfig;
 import com.woozy.carrentals.exceptions.CustomerEntityException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.io.entity.Role;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@Import(Log4j2TestConfig.class)
 public class AuthenticationServiceImplTests {
     @InjectMocks
     private AuthenticationServiceImpl authenticationService;
