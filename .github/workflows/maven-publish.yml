@@ -41,11 +41,32 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
-
+      - name: Set up maven settings.xml
+        uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
+            [
+              {
+                "id": "github-api-client",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.API_CLIENT_PAT }}"
+              },
+              {
+                "id": "github-shared-artifacts",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.SHARED_ARTIFACT_SECRET }}"
+              }
+            ]
       - name: Run Unit Tests
         run: mvn test --fail-at-end
+        env:
+          SHARED_ARTF_PAT: ${{ secrets.SHARED_ARTIFACT_SECRET }}
+          API_CLIENT_PAT: ${{ secrets.API_CLIENT_PAT }}
 
       - name: Run Integration Tests
         run: mvn verify --fail-at-end -Pintegration-tests
+        env:
+          SHARED_ARTF_PAT: ${{ secrets.SHARED_ARTIFACT_SECRET }}
+          API_CLIENT_PAT: ${{ secrets.API_CLIENT_PAT }}
 
 
