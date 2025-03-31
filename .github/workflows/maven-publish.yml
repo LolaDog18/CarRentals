@@ -24,14 +24,34 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
-
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+          settings-path: ${{ github.workspace }}
+      - name: Set up maven settings.xml
+        uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
+            [
+              {
+                "id": "github-api-client",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.API_CLIENT_PAT }}"
+              },
+              {
+                "id": "github-shared-artifacts",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.SHARED_ARTIFACT_SECRET }}"
+              },
+              {
+                "id": "github-car-rentals",
+                "username": "${{ github.actor }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            ]
+      - name: Deploy to GitHub packages
+        run: mvn deploy -DskipTests
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          SHARED_ARTF_PAT: ${{ secrets.SHARED_ARTIFACT_SECRET }}
+          API_CLIENT_PAT: ${{ secrets.API_CLIENT_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 

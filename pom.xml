@@ -26,6 +26,38 @@
         <url/>
     </scm>
 
+    <repositories>
+        <repository>
+            <id>github-shared-artifacts</id>
+            <url>https://maven.pkg.github.com/LolaDog18/shared-artifacts</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>github-api-client</id>
+            <url>https://maven.pkg.github.com/LolaDog18/api-client</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <distributionManagement>
+        <repository>
+            <id>github-car-rentals</id>
+            <url>https://maven.pkg.github.com/LolaDog18/car-rentals</url>
+        </repository>
+    </distributionManagement>
+
+
     <properties>
         <java.version>21</java.version>
         <mysql-connector-j.version>8.2.0</mysql-connector-j.version>
