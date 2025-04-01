@@ -71,6 +71,7 @@
         <shared-artifacts.version>1.0.0</shared-artifacts.version>
         <allure-cucumber7-jvm.version>2.29.1</allure-cucumber7-jvm.version>
         <tomcat-embed-core.version>11.0.5</tomcat-embed-core.version>
+        <maven-plugins.version>3.5.3</maven-plugins.version>
     </properties>
 
     <dependencies>
@@ -217,30 +218,11 @@
     <profiles>
         <profile>
             <id>integration-tests</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.2.5</version>
-                        <executions>
-                            <execution>
-                                <id>integration-tests</id>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <properties>
+                <spring.profiles.active>integration</spring.profiles.active>
+            </properties>
         </profile>
     </profiles>
-
 
     <build>
         <plugins>
@@ -261,12 +243,35 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>${maven-plugins.version}</version>
                 <configuration>
+                    <includes>
+                        <include>**/*Tests.java</include> <!-- Runs tests ending with 'Test' -->
+                    </includes>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
                         -Xshare:off
                     </argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-plugins.version}</version>
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include> <!-- Runs tests ending with 'IT' -->
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>

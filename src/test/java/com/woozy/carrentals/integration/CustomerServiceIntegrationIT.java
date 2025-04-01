@@ -7,5 +7,5 @@ import static io.cucumber.core.options.Constants.FILTER_TAGS_PROPERTY_NAME;
 
 @SelectClasspathResource("bdd/customer-service")
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "(@Customers or @Cleanup) and not @Skip")
-public class CustomerServiceIntegrationTests extends BaseTestCucumber {
+public class CustomerServiceIntegrationIT extends BaseTestCucumber {
 }

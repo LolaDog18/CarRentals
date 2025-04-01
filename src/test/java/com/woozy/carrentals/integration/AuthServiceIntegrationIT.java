@@ -7,6 +7,6 @@ import static io.cucumber.core.options.Constants.FILTER_TAGS_PROPERTY_NAME;
 
 @SelectClasspathResource("bdd/auth")
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "(@Auth or @Cleanup) or (@Reg or @Cleanup) or @Reg or @Auth or not @Skip")
-public class AuthServiceIntegrationTests extends BaseTestCucumber {
+public class AuthServiceIntegrationIT extends BaseTestCucumber {
 
 }
