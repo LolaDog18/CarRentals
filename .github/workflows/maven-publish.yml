@@ -9,6 +9,10 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  API_CLIENT_TOKEN: ${{ secrets.API_CLIENT_PAT }}
+  SHARED_ARTIFACTS_TOKEN: ${{ secrets.SHARED_ARTIFACT_SECRET }}
+
 jobs:
   build:
     name: Build project
@@ -16,9 +20,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      API_CLIENT_TOKEN: ${{ secrets.API_CLIENT_PAT }}
-      SHARED_ARTIFACTS_TOKEN: ${{ secrets.SHARED_ARTIFACT_SECRET }}
 
     steps:
       - name: Checkout code

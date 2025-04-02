@@ -218,9 +218,9 @@
     <profiles>
         <profile>
             <id>integration-tests</id>
-            <properties>
-                <spring.profiles.active>integration</spring.profiles.active>
-            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
         </profile>
     </profiles>
 
