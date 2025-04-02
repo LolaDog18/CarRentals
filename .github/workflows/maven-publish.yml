@@ -12,6 +12,7 @@ on:
 env:
   API_CLIENT_TOKEN: ${{ secrets.API_CLIENT_PAT }}
   SHARED_ARTIFACTS_TOKEN: ${{ secrets.SHARED_ARTIFACT_SECRET }}
+  TOKEN_SECRET: ${{ secrets.JWT_TOKEN_SECRET }}
 
 jobs:
   build:
