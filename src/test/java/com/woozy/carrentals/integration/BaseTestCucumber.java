@@ -10,9 +10,7 @@ import static io.cucumber.core.options.Constants.*;
 @Suite
 @IncludeEngines("cucumber")
 @ConfigurationParameter(key = PLUGIN_PUBLISH_QUIET_PROPERTY_NAME, value = "true")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value =
-        "pretty, html:target/cucumber-reports/cucumber.html, json:target/cucumber-reports/cucumber.json")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.woozy.carrentals.bdd")
-@Profile("unit")
+@Profile("integration")
 public abstract class BaseTestCucumber {
 }
