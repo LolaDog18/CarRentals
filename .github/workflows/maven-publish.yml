@@ -15,7 +15,7 @@ env:
   TOKEN_SECRET: ${{ secrets.JWT_TOKEN_SECRET }}
 
 jobs:
-  build-and-test:
+  test:
     name: Build and Run Tests
     runs-on: ubuntu-latest
     needs: build
