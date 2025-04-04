@@ -53,14 +53,10 @@ jobs:
       - name: Build & Run Tests
         run: mvn clean verify --fail-at-end
 
-      - name: Upload Build Artifacts
+      - name: Upload Build Artifacts and Cucumber Report
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: packaged-app
-          path: target/*.jar
-
-      - name: Attach Cucumber Report to Workflow Summary
-        uses: actions/upload-artifact@v2
-        with:
-          name: cucumber-html-report
-          path: target/cucumber-html-reports
+          name: build-and-cucumber-reports
+          path: |
+            target/*.jar
+            target/cucumber-html-reports
