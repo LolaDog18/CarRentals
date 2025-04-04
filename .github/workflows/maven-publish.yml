@@ -58,3 +58,9 @@ jobs:
         with:
           name: packaged-app
           path: target/*.jar
+
+      - name: Attach Cucumber Report to Workflow Summary
+        run: |
+          echo "### Cucumber Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "Test results generated at target/cucumber-html-reports" >> $GITHUB_STEP_SUMMARY
+          echo "You can download the detailed report from here: [Download JSON Report](target/cucumber-html-reports)" >> $GITHUB_STEP_SUMMARY
