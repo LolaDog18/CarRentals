@@ -56,6 +56,6 @@ jobs:
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: build-and-cucumber-reports
+          name: cucumber-reports
           path: |
-            target/cucumber-html-reports
+            target/cucumber-reports/cucumber-html-reports/
