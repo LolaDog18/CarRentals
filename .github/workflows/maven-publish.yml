@@ -55,7 +55,19 @@ jobs:
 
       - name: Generate Cucumber Reports
         run: |
-          mvn clean post-integration-test -DskipTests
+          echo "Locating Cucumber JSON files..."
+          find target/cucumber-reports -name "*.json"
+
+          echo "Copying JSON files to flat directory..."
+          mkdir -p target/cucumber-jsons
+          find target/cucumber-reports -name "*.json" -exec cp {} target/cucumber-jsons/ \;
+
+          echo "Generating report..."
+          mvn net.masterthought:maven-cucumber-reporting:generate \
+          -DprojectName="Cucumber Tests" \
+          -DoutputDirectory=target/cucumber-html-reports \
+          -DjsonFiles=target/cucumber-jsons/*.json \
+          -DskipTests
 
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4.6.2
