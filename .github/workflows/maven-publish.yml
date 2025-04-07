@@ -53,10 +53,9 @@ jobs:
       - name: Build & Run Tests
         run: mvn clean verify --fail-at-end
 
-      - name: Upload Build Artifacts and Cucumber Report
+      - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4.6.2
         with:
           name: build-and-cucumber-reports
           path: |
-            target/*.jar
             target/cucumber-html-reports
