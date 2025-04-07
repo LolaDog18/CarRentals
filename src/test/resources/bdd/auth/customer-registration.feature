@@ -15,7 +15,7 @@ Feature: Customer registration
     Then I should receive response with status code of 200
     And body contains saved customer details with non-null values
 
-  @Skip
+  @Reg
   Scenario: Client makes a call to POST /register-customer endpoint with invalid customer details
     Given the following customer invalid details:
       | firstName | lastName | email                  | password  | mobileNumber | age | drivingLicense | address               | errorMessage                       |
