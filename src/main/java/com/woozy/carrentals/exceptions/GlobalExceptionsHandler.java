@@ -73,6 +73,13 @@ public class GlobalExceptionsHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ProblemDetail handleCustomerNotFoundException(CustomerNotFoundException e, WebRequest request) {
+        ProblemDetail problemDetail = setBaseProblemDetailFor(HttpStatus.BAD_REQUEST, request, e);
+        problemDetail.setDetail(USER_NOT_FOUND);
+        return problemDetail;
+    }
+
     private ProblemDetail setBaseProblemDetailFor(HttpStatus httpStatus, WebRequest webRequest, Exception ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(httpStatus, ex.getMessage());
         problemDetail.setType(httpStatusURIMap().get(httpStatus));

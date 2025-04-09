@@ -276,8 +276,9 @@
                             <projectName>Cucumber Tests</projectName>
                             <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
                             <inputDirectory>${project.build.directory}/cucumber-reports</inputDirectory>
+                            <checkBuildResult>false</checkBuildResult>
                             <jsonFiles>
-                                <param>${project.build.directory}/cucumber-reports/*.json</param>
+                                <param>**/*.json</param>
                             </jsonFiles>
                         </configuration>
                     </execution>

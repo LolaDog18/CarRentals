@@ -14,7 +14,6 @@ import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.platform.commons.util.StringUtils;
-import org.springframework.http.ProblemDetail;
 
 import java.util.List;
 
@@ -46,11 +45,5 @@ public class CustomerAuthStepDefs {
 
     @Given("I don't register a customer")
     public void iDonTRegisterACustomer() {
-    }
-
-    @And("body should contain error message {string}")
-    public void bodyShouldContainErrorMessage(String message) {
-        var response = context.get(ContextItem.RESPONSE, ClientResponse.class);
-        Assertions.assertEquals(message, response.extractBodyAs(ProblemDetail.class).getDetail());
     }
 }

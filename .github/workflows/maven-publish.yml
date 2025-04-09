@@ -51,7 +51,13 @@ jobs:
             ]
 
       - name: Build & Run Tests
+        id: build-test
+        continue-on-error: true
         run: mvn clean verify --fail-at-end
+
+      - name: Generate Cucumber Report
+        if: always()
+        run: mvn post-integration-test -DskipTests
 
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4.6.2
@@ -59,3 +65,14 @@ jobs:
           name: cucumber-reports
           path: |
             target/cucumber-reports/cucumber-html-reports/
+      - name: Upload Log File
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-logs
+          path: logs/integration-test-layer.log
+
+
+      - name: Fail job if tests failed
+        if: steps.build-test.outcome == 'failure'
+        run: exit 1

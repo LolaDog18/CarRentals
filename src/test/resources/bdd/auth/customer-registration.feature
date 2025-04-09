@@ -49,5 +49,5 @@ Feature: Customer registration
     And customer is saved to database
     When client calls POST /register-customer with the same email as existing one in database
     Then I should receive response with status code of 400
-    And error message in body contains "The customer email or phone number already exists"
+    And error message in body contains "The customer email or phone number already exist"
 

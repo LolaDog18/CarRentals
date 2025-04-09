@@ -11,7 +11,7 @@ Feature: Customer service
   Scenario: Client makes a call GET /customers passing non-existing customer id
     When I call GET /customers passing non-existing customer userId
     Then I should receive response with status code of 400
-    And body sho uld contain error message "The user was not found"
+    And body should contain error message "The user was not found"
 
   @Customers @Cleanup
   Scenario: Client makes a call DELETE /customers passing existing customer id

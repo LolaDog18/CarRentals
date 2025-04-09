@@ -1,7 +1,7 @@
 package com.woozy.carrentals.service.impl;
 
 import com.woozy.UpdateCustomerRequestDto;
-import com.woozy.carrentals.exceptions.CustomerEntityException;
+import com.woozy.carrentals.exceptions.CustomerNotFoundException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.repository.CustomerRepository;
 import com.woozy.carrentals.service.CustomerService;
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto getCustomer(String userId) {
         CustomerEntity user = customerRepository.findByUserId(userId)
-                .orElseThrow(() -> new CustomerEntityException(format(CUSTOMER_ID_NOT_FOUND, userId)));
+                .orElseThrow(() -> new CustomerNotFoundException(format(CUSTOMER_ID_NOT_FOUND, userId)));
 
         CustomerResponseDto customerResponseDto = new CustomerResponseDto();
         org.springframework.beans.BeanUtils.copyProperties(user, customerResponseDto);

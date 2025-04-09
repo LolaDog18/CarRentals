@@ -2,7 +2,7 @@ package com.woozy.carrentals.service;
 
 import com.woozy.UpdateCustomerRequestDto;
 import com.woozy.carrentals.config.Log4j2TestConfig;
-import com.woozy.carrentals.exceptions.CustomerEntityException;
+import com.woozy.carrentals.exceptions.CustomerNotFoundException;
 import com.woozy.carrentals.io.entity.CustomerEntity;
 import com.woozy.carrentals.repository.CustomerRepository;
 import com.woozy.carrentals.service.impl.CustomerServiceImpl;
@@ -56,7 +56,7 @@ public class CustomerServiceImplTests {
     void getCustomer_invalidUserId_throwsCustomerEntityException() {
         when(customerRepository.findByUserId(userId)).thenReturn(Optional.empty());
 
-        CustomerEntityException exception = assertThrows(CustomerEntityException.class, () -> customerService.getCustomer(userId));
+        CustomerNotFoundException exception = assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomer(userId));
         assertEquals(format(CUSTOMER_ID_NOT_FOUND, userId), exception.getMessage());
     }
 
