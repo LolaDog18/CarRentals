@@ -67,7 +67,7 @@ jobs:
             target/cucumber-reports/cucumber-html-reports/
       - name: Upload Log File
         if: always()
-        uses: actions/upload-artifact@vv4.6.2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: test-logs
           path: logs/integration-test-layer.log
